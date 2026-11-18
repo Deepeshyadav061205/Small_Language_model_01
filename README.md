@@ -35,6 +35,7 @@
 | 🎯 **Topic conditioning** | Give keywords and get a story that uses them |
 | 💾 **Reusable weights** | Trained model and tokenizer are included, so no retraining is needed |
 | 📊 **Loss tracking** | Training and validation curves are saved and plotted |
+| 🌐 **Web interface** | A Gradio app with a text box, sliders for length, creativity, and top-k, and example prompts |
 
 ---
 
@@ -62,13 +63,28 @@ Lily went to play together. Lily. Lily loved to see that and Tom asked a big...
 </details>
 
 <details>
-<summary><b>🧪 How to generate a story</b></summary>
+<summary><b>🌐 Run the web app</b></summary>
 
 <br>
 
-1. Open the notebook with the **Open In Colab** badge above.
-2. Run all cells in order.
-3. Call the generator:
+1. Open the notebook with the **Open In Colab** badge above and set the runtime to a GPU if available.
+2. Run all cells in order. The last cell (the Gradio cell) clones this repository to load the trained model.
+3. Open the public link it prints, ending in `gradio.live`.
+4. Enter topic words such as `dragon, cave, gold`, adjust the sliders, and click **Submit**.
+
+**Slider guide:**
+- **Story length:** how many tokens to generate.
+- **Creativity (temperature):** lower gives safer, more repetitive text; higher gives more varied text.
+- **Top-k sampling:** limits the model to its k most likely next tokens at each step.
+
+The link stays active while the Colab session runs.
+
+</details>
+
+<details>
+<summary><b>🧪 Generate a story in code</b></summary>
+
+<br>
 
 ```python
 story_about("dragon, cave, gold")
@@ -163,7 +179,7 @@ Story: Tim and Mia like to play in the park. They see a big ball...
 
 | Step | Train loss | Validation loss |
 |:---:|:---:|:---:|
-| 0 | 9.00 | 8.99 |
+| 0 | 9.00 | 9.00 |
 | 250 | 4.04 | 3.98 |
 | 499 | **3.77** | **3.79** |
 
@@ -184,12 +200,12 @@ cd Small_Language_model_01
 ### 2️⃣ Install dependencies
 
 ```bash
-pip install torch tokenizers datasets matplotlib
+pip install torch tokenizers datasets matplotlib gradio
 ```
 
 ### 3️⃣ Load the trained model
 
-Put the GPT class definition from the notebook into a file (or run it in Colab), then:
+The model class (`GPT`) is defined in the notebook, so run the notebook's model cell first, then load the saved weights:
 
 ```python
 import torch
@@ -227,7 +243,7 @@ model.eval()
 - [ ] Train for 3,000+ steps on a GPU
 - [ ] Use the larger configuration (`n_layer=6`, `n_head=6`, `n_embd=384`)
 - [ ] Compare against the plain-continuation baseline
-- [ ] Build a Gradio demo
+- [ ] Host the Gradio app permanently on Hugging Face Spaces
 
 </details>
 
